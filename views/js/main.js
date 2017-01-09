@@ -1,16 +1,12 @@
 /*
 Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
 jank-free at 60 frames per second.
-
 There are two major issues in this code that lead to sub-60fps performance. Can
 you spot and fix both?
-
-
 Built into the code, you'll find a few instances of the User Timing API
 (window.performance), which will be console.log()ing frame rate data into the
 browser console. To learn more about User Timing API, check out:
 http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
-
 Creator:
 Cameron Pittman, Udacity Course Developer
 cameron *at* udacity *dot* com
@@ -423,9 +419,9 @@ var resizePizzas = function(size) {
 
    // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
   function determineDx (elem, size) {
-    var oldWidth = elem.offsetWidth;
+    // var oldWidth = elem.offsetWidth;
     var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
-    var oldSize = oldWidth / windowWidth;
+    var oldSize = elem / windowWidth;
 
     // Changes the slider value to a percent width
     function sizeSwitcher (size) {
@@ -443,16 +439,19 @@ var resizePizzas = function(size) {
 
     var newSize = sizeSwitcher(size);
     var dx = (newSize - oldSize) * windowWidth;
-
     return dx;
   }
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    // Took the dx variable out of the for loop so it doesn't have to run every time
+    var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
+    var pizzaWidth = randomPizzas[0].offsetWidth;
+    var dx = determineDx(pizzaWidth, size);
+    var newwidth = (pizzaWidth + dx) + 'px';
+
+    for (var i = 0; i < randomPizzas.length; i++) {
+      randomPizzas[i].style.width = newwidth;
     }
   }
 
@@ -501,10 +500,18 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
+// Took phase out of the for loop that changes style and put it in its own for loop and append each phase to a list phases
   var items = document.querySelectorAll('.mover');
+
+  phases = [];
+  var scrollTop = document.body.scrollTop;
+  for (var x = 0; x < items.length; x++) {
+    var phase = Math.sin((scrollTop / 1250) + (x % 5));
+    phases.push(phase);
+  }
+
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    items[i].style.left = items[i].basicLeft + 100 * phases[i] + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -515,7 +522,7 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
     logAverageFrame(timesToUpdatePosition);
   }
-}
+};
 
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);

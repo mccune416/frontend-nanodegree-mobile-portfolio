@@ -1,3 +1,22 @@
+## Running Instructions
+
+- Open index.html
+- Click on various links to open different pages of the portfolio
+
+## Changes Made
+
+### index.html
+- Customized index.html with my own content
+- Inlined CSS
+
+### views/js/main.js
+- Inlined CSS
+- Optimized Images
+- Background pizzas were put on their own layer
+- for loop in changePizzaSizes optimized by taking determineDx out from loop
+- In updatePositions I took phase out of the for loop and put it in its own for loop to append each phase to a list phases. This way the next for loop only has to look inside a list rather than do more calculations
+- Amount of background pizzas lowered from 200 to 24
+
 ## Website Performance Optimization portfolio project
 
 Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
@@ -53,16 +72,3 @@ The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstra
 
 * <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
 * <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
-
-# Changes Made
-
-## index.html
-- Customized index.html with my own content
-- Inlined CSS
-## views/js/main.js
-- Inlined CSS
-- Optimized Images
-- Background pizzas were put on their own layer
-- for loop in changePizzaSizes optimized by taking determineDx out from loop
-- In updatePositions I took phase out of the for loop and put it in its own for loop to append each phase to a list phases. This way the next for loop only has to look inside a list rather than do more calculations
-- Amount of background pizzas lowered from 200 to 24
